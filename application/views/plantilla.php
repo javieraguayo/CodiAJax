@@ -17,7 +17,7 @@
 </head>
 <body>
 <header>
-	cabeza
+	<h1>Crud Ajax Codeigniter</h1>
 </header>
 <div id="container">
 

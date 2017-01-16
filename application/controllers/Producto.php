@@ -6,7 +6,7 @@ class Producto extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('producto_model');
+		$this->load->model('producto_model', 'producto');
 	}
 
 	public function index(){
@@ -17,24 +17,30 @@ class Producto extends CI_Controller {
 			$data['Param3']=$this->input->post('Param3');
 
 			$Where['1']=1;
-			$data['getProductos']=$this->producto_model->_sql('productos',$Where,'');
+			$data['getProductos']=$this->producto->_sql('productos',$Where,'');
 			
-
-			$View=$this->load->view('Estandarizacion/getViewResponse',$data); //Encapsular toda la Vista en una variable
+			$data['contenido'] = "Estandarizacion/getViewResponse";
+			$View=$this->load->view('plantilla',$data); //Encapsular toda la Vista en una variable
 
 
 			//Forma de devolver parametros (vistas, obj, echo) desde controlador a JS(AJAX)
 			// $this->output
-			// 		->set_content_type('application/json')
-			// 		->set_output(
-			// 			json_encode(array(
-			// 				'success'=>true,
-			// 				'ViewSet'=>$View
+			//  		->set_content_type('application/json')
+			//  		->set_output(
+			//  			json_encode(array(
+			//  				'success'=>true,
+			//  				'ViewSet'=>$View
 
-			// 			))	
-			// );
+			//  			))	
+			//  );
 }
 
+
+public function eliminar(){
+		$data=array();
+		$Where['codigo']=$this->input->post("codigo");
+		$elimina=$this->producto->_Delete('productos',$Where,'');
+	}
 }
 
 /* End of file producto.php */

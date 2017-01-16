@@ -22,6 +22,11 @@ class Producto_model extends CI_Model {
 		}
 }
 
+public function _Delete($table,$where){
+		$this->db->where($where);
+		$this->db->delete($table);  
+	}
+
 }
 
 /* End of file Producto_model.php */

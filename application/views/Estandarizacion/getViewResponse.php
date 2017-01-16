@@ -3,36 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<script type="text/javascript">
-		
-		function getViewResponse(){
-        
-       
-        //Bloqueo de BOTON.. EJ no realizar dos pago por precionar boton 2 veces
-        $("#btn-response-view").prop('disabled',true)
-
-        //Carga en el Boton (Icon) 
-        $(".btn-carga").html('');
-        
-        var ParamObjSend={
-            'Param1':'1',
-            'Param2':'2',
-            'Param3':'3',
-        }
-        $.ajax({
-            type: "POST",
-            url: "http://localhost/CodeigniterAjax/Estandarizacion/getViewResponse",
-            data: ParamObjSend,
-            success: function(objView){
-                $("#btn-response-view").prop('disabled',false)
-                $(".btn-carga").html('');
-
-                $("#Resultado-View").html(objView.ViewSet);
-              
-            }
-        });
- }
-	</script>
+	
 </head>
 <body>
 
@@ -44,30 +15,53 @@
 				<tr>
 					<th>IdProducto</th>
 					<th>Nombre Producto</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			
 			<tbody>
-				<?php
-				if(isset($getProductos)){
-					foreach ($getProductos as $key => $p) {
-					?>
-				<tr>
-					<td><?=$p->codigo;?></td>
-					<td><?=$p->NombreProducto;?></td>
-					<td></td>
-				</tr>
+				<?php 
+                if(isset($getProductos)){
+                  foreach ($getProductos as $key => $a) {
+                    ?>
+                    <tr id="fila_<?=$a->codigo?>">                        
+                      <td><?=$a->codigo;?></td>
+                      <td><?=$a->NombreProducto;?></td>
+                      
+                      <td > <button type="button"  onclick="Elimina(<?=$a->codigo?>)" class="btn btn-primary"><i class="fa fa-trash-o"></i>Eliminar</button></i> 
+                      <?php echo $a->codigo	 ?></td>
+                      
+                      <tr>
+                        <?php
+                      }
+                    } 
+                    ?>
 
-
-					<?php
-					}
-				}
-
-				?>
 			</tbody>
+
 		</table>
+		 <button id="btn-carga" type="submit" class="btn btn-default">Crear Auto</button>
 	</div>
 </div>
 	
 </body>
+<script >
+		
+
+ function Elimina(codigo){
+ 	
+    
+    var ParamObjSend={
+      'codigo':codigo,
+    }
+    $.ajax({
+      type: "POST",
+      url: "Producto/eliminar",
+      data: ParamObjSend,
+      success: function(objView){
+       $('#fila_'+codigo).remove();
+     }
+   });
+  }
+	</script>
 </html>
